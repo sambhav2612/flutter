@@ -20,10 +20,12 @@ class RandomWords extends StatefulWidget {
 }
 
 class RandomWordsState extends State<RandomWords> {
-  @override
   final _suggestions = <WordPair>[]; // a wordpair array
   final _biggerFont =
-      const TextStyle(fontSize: 18.0); // to get bigger font size 18.0 here
+      const TextStyle(fontSize: 12.0); // to get bigger font size 18.0 here
+
+  // store favourited word pairings
+  final _saved = new Set<WordPair>();
 
   Widget build(BuildContext context) {
     // final wordPair = new WordPair.random();
@@ -32,6 +34,10 @@ class RandomWordsState extends State<RandomWords> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Startup Name Generator'),
+        actions: <Widget>[
+          new IconButton(icon: new Icon(Icons.feedback), onPressed: _feedback),
+          new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
+        ],
       ),
       body: _buildSuggestions(),
     );
@@ -40,7 +46,7 @@ class RandomWordsState extends State<RandomWords> {
   // function to print suggested wordpair
   Widget _buildSuggestions() {
     return new ListView.builder(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(12.0),
         itemBuilder: (context, i) {
           // i is the iterator, begins from 0
           if (i.isOdd) return new Divider();
@@ -58,6 +64,49 @@ class RandomWordsState extends State<RandomWords> {
   }
 
   Widget _buildRow(WordPair pair) {
-    return new ListTile(title: new Text(pair.asPascalCase, style: _biggerFont));
+    // check if given wordpair was already daved in the set
+    final alreadySaved = _saved.contains(pair);
+
+    return new ListTile(
+      title: new Text(pair.asPascalCase, style: _biggerFont),
+      trailing: new Icon(alreadySaved ? Icons.favorite : Icons.favorite_border,
+          color: alreadySaved ? Colors.red : null),
+      onTap: () {
+        setState(() {
+          if (alreadySaved) {
+            _saved.remove(pair);
+          } else {
+            _saved.add(pair);
+          }
+        });
+      },
+    );
   }
+
+  void _pushSaved() {
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+        builder: (context) {
+          final tiles = _saved.map(
+            (pair) {
+              return new ListTile(
+                title: new Text(
+                  pair.asPascalCase,
+                  style: _biggerFont,
+                ),
+              );
+            },
+          );
+          final divided = ListTile
+              .divideTiles(
+                context: context,
+                tiles: tiles,
+              )
+              .toList();
+        },
+      ),
+    );
+  }
+
+  void _feedback() {}
 }
