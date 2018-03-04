@@ -1,6 +1,6 @@
 # startup_name_generator
 
-A new Flutter project.
+A Flutter Project to generate Startup Names.
 
 ## Getting Started
 
