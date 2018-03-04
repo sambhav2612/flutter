@@ -2,6 +2,7 @@ name: startup_name_generator
 description: A new Flutter project.
 
 dependencies:
+  english_words: "^3.1.0"
   flutter:
     sdk: flutter
 
