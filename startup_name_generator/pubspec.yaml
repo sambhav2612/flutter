@@ -1,5 +1,5 @@
 name: startup_name_generator
-description: A new Flutter project.
+description: A Flutter Project to generate Startup Names.
 
 dependencies:
   english_words: "^3.1.0"
