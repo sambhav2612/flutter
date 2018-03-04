@@ -22,7 +22,7 @@ class RandomWords extends StatefulWidget {
 class RandomWordsState extends State<RandomWords> {
   final _suggestions = <WordPair>[]; // a wordpair array
   final _biggerFont =
-      const TextStyle(fontSize: 12.0); // to get bigger font size 18.0 here
+      const TextStyle(fontSize: 16.0); // to get bigger font size 18.0 here
 
   // store favourited word pairings
   final _saved = new Set<WordPair>();
@@ -103,6 +103,13 @@ class RandomWordsState extends State<RandomWords> {
                 tiles: tiles,
               )
               .toList();
+            
+          return new Scaffold(
+            appBar: new AppBar(
+              title: new Text('Favourites'),
+            ),
+            body: new ListView(children: divided),
+          );
         },
       ),
     );
