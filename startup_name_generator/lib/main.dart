@@ -106,7 +106,7 @@ class RandomWordsState extends State<RandomWords> {
                 tiles: tiles,
               )
               .toList();
-            
+
           return new Scaffold(
             appBar: new AppBar(
               title: new Text('Favourites'),
