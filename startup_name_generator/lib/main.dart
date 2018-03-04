@@ -27,6 +27,8 @@ class RandomWordsState extends State<RandomWords> {
   final _biggerFont =
       const TextStyle(fontSize: 16.0); // to get bigger font size 18.0 here
 
+  final color = Colors.black;
+
   // store favourited word pairings
   final _saved = new Set<WordPair>();
 
@@ -130,7 +132,7 @@ class RandomWordsState extends State<RandomWords> {
                 child: new Text(
                   'Hello, I am Sambhav Jain. This is my first app. It generates startup names using an external library english_words inifinitely.',
                   style: _biggerFont,
-                  maxLines: 10,
+                  textAlign: TextAlign.center,
                 ),
               ));
         },
