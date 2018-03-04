@@ -118,5 +118,23 @@ class RandomWordsState extends State<RandomWords> {
     );
   }
 
-  void _feedback() {}
+  void _feedback() {
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+        builder: (context) {
+          return new Scaffold(
+              appBar: new AppBar(
+                title: new Text('Feedback'),
+              ),
+              body: new Center(
+                child: new Text(
+                  'Hello, I am Sambhav Jain. This is my first app. It generates startup names using an external library english_words inifinitely.',
+                  style: _biggerFont,
+                  maxLines: 10,
+                ),
+              ));
+        },
+      ),
+    );
+  }
 }
