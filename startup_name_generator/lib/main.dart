@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: 'Startup Name Generator',
       theme: new ThemeData(
-        primaryColor: Colors.white,
+        primaryColor: Colors.blueAccent,
       ),
       home: new RandomWords(),
     );
@@ -31,26 +31,51 @@ class RandomWordsState extends State<RandomWords> {
 
   // store favourited word pairings
   final _saved = new Set<WordPair>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  String _simpleValue;
+
+  final String _simpleValue1 = 'Menu item value one';
+  final String _simpleValue2 = 'Menu item value two';
+  final String _simpleValue3 = 'Menu item value three';
+
+  bool alreadySaved;
+
+  void showInSnackBar(String value) {
+    _scaffoldKey.currentState
+        .showSnackBar(new SnackBar(content: new Text(value)));
+  }
+
+  void showMenuSelection(String value) {
+    if (<String>[_simpleValue1, _simpleValue2, _simpleValue3].contains(value))
+      _simpleValue = value;
+    showInSnackBar('You selected: $value');
+  }
 
   Widget build(BuildContext context) {
     // final wordPair = new WordPair.random();
     // return new Text(wordPair.asPascalCase);
 
     return new Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         title: new Text('Startup Name Generator'),
         actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.feedback), onPressed: _feedback),
-          new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
-          /*new PopupMenuButton<String>(
-            icon: new Icon(Icons.menu),
-            onSelected: (String result) {setState(() {_selection = result;});},
+          new IconButton(
+              icon: new Icon(Icons.notification_important),
+              onPressed: _feedback),
+          new IconButton(icon: new Icon(Icons.favorite), onPressed: _pushSaved),
+          new PopupMenuButton<String>(
+            icon: new Icon(Icons.arrow_drop_down),
+            onSelected: showMenuSelection,
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: ,
-              )
-            ],
-          )*/
+                  const PopupMenuItem<String>(
+                      value: 'Item 1', child: const Text('Item 1')),
+                  const PopupMenuItem<String>(
+                      value: 'Item 2', child: const Text('Item 2')),
+                  const PopupMenuItem<String>(
+                      value: 'Item 1', child: const Text('Item 2'))
+                ],
+          )
         ],
       ),
       body: _buildSuggestions(),
@@ -79,7 +104,7 @@ class RandomWordsState extends State<RandomWords> {
 
   Widget _buildRow(WordPair pair) {
     // check if given wordpair was already daved in the set
-    final alreadySaved = _saved.contains(pair);
+    alreadySaved = _saved.contains(pair);
 
     return new ListTile(
       title: new Text(pair.asPascalCase, style: _biggerFont),
@@ -108,9 +133,22 @@ class RandomWordsState extends State<RandomWords> {
                   pair.asPascalCase,
                   style: _biggerFont,
                 ),
+                trailing: new Icon(
+                    alreadySaved ? Icons.delete : Icons.delete_outline,
+                    color: alreadySaved ? Colors.red : null),
+                onTap: () {
+                  setState(() {
+                    if (alreadySaved) {
+                      _saved.remove(pair);
+                    } else {
+                      _saved.add(pair);
+                    }
+                  });
+                },
               );
             },
           );
+
           final divided = ListTile
               .divideTiles(
                 context: context,
@@ -135,25 +173,20 @@ class RandomWordsState extends State<RandomWords> {
         builder: (context) {
           return new Scaffold(
               appBar: new AppBar(
-                title: new Text('Feedback'),
+                title: new Text('About'),
               ),
               body: new Center(
-                child: new Container(
-                  child: new Column(
-                    children: <Widget>[
-                      new Text('Hello, I am Sambhav Jain.'),
-                      new Text('This is my first app.'),
-                      new Expanded(
-                        child: new Text('XO')
-                      )
-                    ],
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                  ),
-                )
-              )
-          );
+                child: new Column(
+                  children: <Widget>[
+                    new Text('Hello, I am Sambhav Jain.'),
+                    new Text('This is my first app.'),
+                    new Expanded(child: new Text('XO'))
+                  ],
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                ),
+              ));
         },
       ),
     );
