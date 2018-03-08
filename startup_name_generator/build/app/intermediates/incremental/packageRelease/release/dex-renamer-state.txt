@@ -1,0 +1,4 @@
+#Thu Mar 08 21:06:27 IST 2018
+base.0=D\:\\COLLEGE\\second-year\\sem-4\\flutter-projects\\startup_name_generator\\build\\app\\intermediates\\transforms\\dex\\release\\0
+path.0=classes.dex
+renamed.0=classes.dex

@@ -129,11 +129,15 @@ class RandomWordsState extends State<RandomWords> {
                 title: new Text('Feedback'),
               ),
               body: new Center(
-                child: new Text(
-                  'Hello, I am Sambhav Jain. This is my first app. It generates startup names using an external library english_words inifinitely.',
-                  style: _biggerFont,
-                  textAlign: TextAlign.center,
-                ),
+                child: new Column(
+                  children: <Widget>[
+                    new Text('Hello, I am Sambhav Jain.'),
+                    new Text('This is my first app.'),
+                    new Text('It generates startup names using an external library \'english_words\' inifinitely.')
+                  ],
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                )
               ));
         },
       ),

@@ -1,4 +1,4 @@
-name: startup_name_generator
+name: Startup_Name_Generator
 description: A Flutter Project to generate Startup Names.
 
 dependencies:
