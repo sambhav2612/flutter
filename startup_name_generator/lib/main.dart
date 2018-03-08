@@ -42,6 +42,15 @@ class RandomWordsState extends State<RandomWords> {
         actions: <Widget>[
           new IconButton(icon: new Icon(Icons.feedback), onPressed: _feedback),
           new IconButton(icon: new Icon(Icons.list), onPressed: _pushSaved),
+          /*new PopupMenuButton<String>(
+            icon: new Icon(Icons.menu),
+            onSelected: (String result) {setState(() {_selection = result;});},
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: ,
+              )
+            ],
+          )*/
         ],
       ),
       body: _buildSuggestions(),
@@ -129,16 +138,22 @@ class RandomWordsState extends State<RandomWords> {
                 title: new Text('Feedback'),
               ),
               body: new Center(
-                child: new Column(
-                  children: <Widget>[
-                    new Text('Hello, I am Sambhav Jain.'),
-                    new Text('This is my first app.'),
-                    new Text('It generates startup names using an external library \'english_words\' inifinitely.')
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: new Container(
+                  child: new Column(
+                    children: <Widget>[
+                      new Text('Hello, I am Sambhav Jain.'),
+                      new Text('This is my first app.'),
+                      new Expanded(
+                        child: new Text('XO')
+                      )
+                    ],
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                  ),
                 )
-              ));
+              )
+          );
         },
       ),
     );
