@@ -1,0 +1,13 @@
+{
+    "name": "Startup Name Generator",
+    "version": "0.0.2",
+    "author": {
+        "name": "Sambhav Jain",
+        "email": "sambhavjain2612@gmail.com"
+    },
+    "github": {
+        "source": "sambhav2612/flutter",
+        "bugs": "sambhav2612/flutter/issues"
+    },
+    "license": "MIT"
+}

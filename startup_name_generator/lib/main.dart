@@ -77,6 +77,18 @@ class RandomWordsState extends State<RandomWords> {
         ],
       ),
       body: _buildSuggestions(),
+      drawer: new Drawer(
+          child: new Column(
+        children: <Widget>[
+          new UserAccountsDrawerHeader(
+            accountName: const Text('Sambhav Jain'),
+            accountEmail: const Text('sambhavjain2612@gmail.com'),
+            currentAccountPicture: const CircleAvatar(
+              backgroundImage: const AssetImage('images/dp.jpg'),
+            ),
+          )
+        ],
+      )),
     );
   }
 
@@ -127,11 +139,10 @@ class RandomWordsState extends State<RandomWords> {
           final tiles = _saved.map(
             (pair) {
               return new ListTile(
-                title: new Text(
-                  pair.asPascalCase,
-                  style: _biggerFont,
-                )
-              );
+                  title: new Text(
+                pair.asPascalCase,
+                style: _biggerFont,
+              ));
             },
           );
           final divided = ListTile
