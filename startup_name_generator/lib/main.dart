@@ -38,8 +38,6 @@ class RandomWordsState extends State<RandomWords> {
   final String _simpleValue2 = 'Menu item value two';
   final String _simpleValue3 = 'Menu item value three';
 
-  bool alreadySaved;
-
   void showInSnackBar(String value) {
     _scaffoldKey.currentState
         .showSnackBar(new SnackBar(content: new Text(value)));
@@ -104,7 +102,7 @@ class RandomWordsState extends State<RandomWords> {
 
   Widget _buildRow(WordPair pair) {
     // check if given wordpair was already daved in the set
-    alreadySaved = _saved.contains(pair);
+    final alreadySaved = _saved.contains(pair);
 
     return new ListTile(
       title: new Text(pair.asPascalCase, style: _biggerFont),
@@ -132,23 +130,10 @@ class RandomWordsState extends State<RandomWords> {
                 title: new Text(
                   pair.asPascalCase,
                   style: _biggerFont,
-                ),
-                trailing: new Icon(
-                    alreadySaved ? Icons.delete : Icons.delete_outline,
-                    color: alreadySaved ? Colors.red : null),
-                onTap: () {
-                  setState(() {
-                    if (alreadySaved) {
-                      _saved.remove(pair);
-                    } else {
-                      _saved.add(pair);
-                    }
-                  });
-                },
+                )
               );
             },
           );
-
           final divided = ListTile
               .divideTiles(
                 context: context,
