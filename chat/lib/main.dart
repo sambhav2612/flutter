@@ -1,5 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:async';
+
+final googleSignIn = new GoogleSignIn();
+
+Future<Null> _ensureLoggedIn() async {
+  GoogleSignInAccount user = googleSignIn.currentUser;
+  if (user == null) user = await googleSignIn.signInSilently();
+  if (user == null) {
+    await googleSignIn.signIn();
+  }
+}
 
 void main() {
   runApp(new ChatKaroBhai());
@@ -45,17 +57,23 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  void _handleSubmitted(String text) {
+  Future<Null> _handleSubmitted(String text) async {
     _textController.clear();
     setState(() {
       _isComposing = false;
     });
+    await _ensureLoggedIn();
+    _sendMessage(text: text);
+  }
+
+  void _sendMessage({String text}) {
     ChatMessage message = new ChatMessage(
-        text: text,
-        animationController: new AnimationController(
-          duration: new Duration(milliseconds: 400),
-          vsync: this,
-        ));
+      text: text,
+      animationController: new AnimationController(
+        duration: new Duration(milliseconds: 400),
+        vsync: this,
+      ),
+    );
     setState(() {
       _messages.insert(0, message);
     });
@@ -97,9 +115,7 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Chat Karo Bhai")
-        ),
+        appBar: new AppBar(title: new Text("Chat Karo Bhai")),
         body: new Column(
           children: <Widget>[
             new Flexible(
@@ -122,37 +138,40 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
 class ChatMessage extends StatelessWidget {
   ChatMessage({this.text, this.animationController});
   final String text;
-  final String _name = "Sambhav Jain";
   final AnimationController animationController;
 
   @override
   Widget build(BuildContext context) {
     return new SizeTransition(
-        sizeFactor: new CurvedAnimation(
-            parent: animationController, curve: Curves.easeInOut),
-        axisAlignment: 0.0,
-        child: new Container(
-          margin: const EdgeInsets.symmetric(vertical: 10.0),
-          child: new Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              new Container(
+      sizeFactor: new CurvedAnimation(
+          parent: animationController, curve: Curves.easeInOut),
+      axisAlignment: 0.0,
+      child: new Container(
+        margin: const EdgeInsets.symmetric(vertical: 10.0),
+        child: new Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            new Container(
                 margin: const EdgeInsets.only(right: 16.0),
-                child: new CircleAvatar(child: new Text(_name[0])),
+                child: new CircleAvatar(
+                    backgroundImage:
+                        new NetworkImage(googleSignIn.currentUser.photoUrl))),
+            new Expanded(
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  new Text(googleSignIn.currentUser.displayName,
+                      style: Theme.of(context).textTheme.subhead),
+                  new Container(
+                    margin: const EdgeInsets.only(top: 5.0),
+                    child: new Text(text),
+                  ),
+                ],
               ),
-              new Expanded(
-                child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    new Text(_name, style: Theme.of(context).textTheme.subhead),
-                    new Container(
-                        margin: const EdgeInsets.only(top: 5.0),
-                        child: new Text(text)),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
