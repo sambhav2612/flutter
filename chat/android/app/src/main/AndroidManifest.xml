@@ -1,21 +1,32 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.chat">
+    package="com.example.chat"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CAMERA"/>               
     <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"/>
 
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"/>
+
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Chat Karo Bhai"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="true">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale"
             android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:value="26.1.0">
+            <meta-data android:name=".MainActivity"
+                tools:replace="@strings/vvalue  "/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
